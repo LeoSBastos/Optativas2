@@ -33,10 +33,14 @@ class _HomeState extends State<Home> {
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
-              title: Text("Lista de cursos"),
-              centerTitle: true,
-              //backgroundColor: Colors.brown,
-            ),
+                title: Text("Lista de cursos"),
+                centerTitle: true,
+                actions: <Widget>[
+                  IconButton(
+                      icon: Icon(Icons.refresh), onPressed: _limparFormulario)
+                ]
+                //backgroundColor: Colors.brown,
+                ),
             body: Column(children: <Widget>[
               Padding(
                   padding: EdgeInsets.all(20),
@@ -47,6 +51,7 @@ class _HomeState extends State<Home> {
               Padding(
                   padding: EdgeInsets.all(20),
                   child: TextField(
+                      keyboardType: TextInputType.number,
                       controller: _cargaHoraria,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
