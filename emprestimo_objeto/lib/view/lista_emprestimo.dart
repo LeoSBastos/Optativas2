@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:emprestimo_objeto/component/fazerItem.dart';
 import 'package:emprestimo_objeto/model/emprestimo.dart';
-import 'package:emprestimo_objeto/persistence/manipula_arquivo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,14 +11,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  ManipulaArquivo manipulaArquivo = ManipulaArquivo();
   final _nomeController = TextEditingController();
   final _tipoController = TextEditingController();
   final _descricaoController = TextEditingController();
   DateTime _dataInfo = DateTime.now();
-  Map<String, dynamic> _ultimoRemovido;
-  int _ultimoRemovidoPos;
-  List _emprestimoList = [];
+  ConstruirItem ci = new ConstruirItem();
 
   void _changeDate() async {
     final dataSelecionada = await showDatePicker(
@@ -42,9 +39,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    manipulaArquivo.readEmprestimo().then((dado) {
+    ci.manipulaArquivo.readEmprestimo().then((dado) {
       setState(() {
-        _emprestimoList = json.decode(dado);
+        ci.emprestimoList = json.decode(dado);
       });
     });
   }
@@ -58,15 +55,15 @@ class _HomeState extends State<Home> {
       _nomeController.text = "";
       _tipoController.text = "";
       _descricaoController.text = "";
-      _emprestimoList.add(novoEmprestimo);
-      manipulaArquivo.saveEmprestimo(_emprestimoList);
+      ci.emprestimoList.add(novoEmprestimo);
+      ci.manipulaArquivo.saveEmprestimo(ci.emprestimoList);
     });
   }
 
   Future<Null> _refresh() async {
     await Future.delayed(Duration(seconds: 1));
     setState(() {
-      _emprestimoList.sort((a, b) {
+      ci.emprestimoList.sort((a, b) {
         if (a["devolvida"] && !b["devolvida"])
           return 1;
         else if (!a["devolvida"] && b["devolvida"])
@@ -74,7 +71,7 @@ class _HomeState extends State<Home> {
         else
           return 0;
       });
-      manipulaArquivo.saveEmprestimo(_emprestimoList);
+      ci.manipulaArquivo.saveEmprestimo(ci.emprestimoList);
     });
     return null;
   }
@@ -137,59 +134,12 @@ class _HomeState extends State<Home> {
                   onRefresh: _refresh,
                   child: ListView.builder(
                       padding: EdgeInsets.only(top: 10.0),
-                      itemCount: _emprestimoList.length,
-                      itemBuilder: buildItem)))
+                      itemCount: ci.emprestimoList.length,
+                      itemBuilder: (context, index) {
+                        return ci.buildItem(context, index);
+                      })))
         ],
       ),
     );
-  }
-
-  Widget buildItem(BuildContext context, int index) {
-    return Dismissible(
-        key: Key(DateTime.now().millisecondsSinceEpoch.toString()),
-        background: Container(
-          color: Colors.red,
-          child: Align(
-            alignment: Alignment(-0.9, 0.0),
-            child: Icon(Icons.delete, color: Colors.white),
-          ),
-        ),
-        direction: DismissDirection.startToEnd,
-        child: CheckboxListTile(
-            title: Text(
-                "${_emprestimoList[index]["nomePessoa"]} (${_emprestimoList[index]["tipoObjeto"]}) - ${_emprestimoList[index]["data"].day}/${_emprestimoList[index]["data"].month}/${_emprestimoList[index]["data"].year}"),
-            value: _emprestimoList[index]["devolvida"],
-            secondary: CircleAvatar(
-              child: Icon(_emprestimoList[index]["devolvida"]
-                  ? Icons.check
-                  : Icons.error),
-            ),
-            onChanged: (c) {
-              setState(() {
-                _emprestimoList[index]["devolvida"] = c;
-                manipulaArquivo.saveEmprestimo(_emprestimoList);
-              });
-            }),
-        onDismissed: (direction) {
-          _ultimoRemovido = Map.from(_emprestimoList[index]);
-          _ultimoRemovidoPos = index;
-          _emprestimoList.removeAt(index);
-          manipulaArquivo.saveEmprestimo(_emprestimoList);
-          final snack = SnackBar(
-            content: Text(
-                "Emprestimo de \"${_ultimoRemovido["nomePessoa"]}\" removida!"),
-            action: SnackBarAction(
-                label: "Desfazer",
-                onPressed: () {
-                  setState(() {
-                    _emprestimoList.insert(_ultimoRemovidoPos, _ultimoRemovido);
-                    manipulaArquivo.saveEmprestimo(_emprestimoList);
-                  });
-                }),
-            duration: Duration(seconds: 2),
-          );
-          Scaffold.of(context).removeCurrentSnackBar();
-          Scaffold.of(context).showSnackBar(snack);
-        });
   }
 }
