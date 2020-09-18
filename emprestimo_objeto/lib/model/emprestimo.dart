@@ -8,7 +8,6 @@ class Emprestimo {
   Emprestimo(this._nomePessoa, this._tipoObjeto, this._descricao, this._data,
       this._devolvida);
 
-
   String get nomePessoa => _nomePessoa;
 
   String get tipoObjeto => _tipoObjeto;
