@@ -1,0 +1,4 @@
+package br.com.opta2.aula8.repository;
+
+public interface CursoRepository extends CrudRepository<Curso, Long> {
+}

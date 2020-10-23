@@ -1,0 +1,20 @@
+package br.com.opta2.aula8.resources;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.opta2.aula8.service.CursoService;
+
+@RestController
+@RequestMapping("/api/v1/cursos")
+public class CursoResource {
+
+	@Autowired
+	private CursoService cursoService;
+	
+	@PostMapping
+	public Curso save(@RequestBody Curso curso){
+	return cursoService.save(curso);
+	}
+}

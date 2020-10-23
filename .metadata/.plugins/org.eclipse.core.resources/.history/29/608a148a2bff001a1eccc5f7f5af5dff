@@ -1,0 +1,6 @@
+package br.com.opta2.aula8.resources;
+
+@RestController
+@RequestMapping("/api/v1/cursos")
+public class CursoResource {
+}

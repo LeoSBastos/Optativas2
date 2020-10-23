@@ -11,7 +11,6 @@ class ListaGastoMensal extends StatefulWidget {
 
 class _ListaGastoMensalState extends State<ListaGastoMensal> {
   Map<String, dynamic> _ultimoRemovido;
-  int _ultimoRemovidoPos;
 
   GastoController _gastoController = GastoController();
   @override

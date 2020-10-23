@@ -1,0 +1,9 @@
+package br.com.opta2.aula8.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+import br.com.opta2.aula8.domain.Curso;
+
+public interface CursoRepository extends CrudRepository<Curso, Long> {
+
+}

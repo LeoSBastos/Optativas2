@@ -1,0 +1,15 @@
+package br.com.opta2.aula8.domain;
+
+@Entity
+public class Curso {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String nome;
+	private Integer cargaHoraria;
+	private Modalidade modalidade;
+
+	public Curso() {
+	}
+//get/set
+}

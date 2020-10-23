@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "843230624888",
+    "firebase_url": "https://crud-cursos-f7585.firebaseio.com",
+    "project_id": "crud-cursos-f7585",
+    "storage_bucket": "crud-cursos-f7585.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843230624888:android:a3a2d8dd6e162222ae018d",
+        "android_client_info": {
+          "package_name": "br.com.opta2.crud_curso_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843230624888-90iev0uo1n5um6cokg70ni5sbvj6lrkv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYEXl2bXe65GjSYdvNMA9YN_tr5K80Ank"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843230624888-90iev0uo1n5um6cokg70ni5sbvj6lrkv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

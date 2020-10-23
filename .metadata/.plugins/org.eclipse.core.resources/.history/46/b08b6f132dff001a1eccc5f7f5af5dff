@@ -1,0 +1,37 @@
+package br.com.opta2.aula8.resources;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.opta2.aula8.domain.Curso;
+import br.com.opta2.aula8.service.CursoService;
+
+@RestController
+@RequestMapping("/api/v1/cursos")
+public class CursoResource {
+
+	@Autowired
+	private CursoService cursoService;
+
+	@PostMapping
+	public Curso save(@RequestBody Curso curso) {
+		return cursoService.save(curso);
+	}
+	@GetMapping
+	public ResponseEntity<List<Curso>> findAll(){
+	List<Curso> cursos = cursoService.findAll();
+	if(cursos == null || cursos.isEmpty()) {
+	return new ResponseEntity<List<Curso>>(HttpStatus.NO_CONTENT);
+	}
+	return new ResponseEntity<List<Curso>>(cursos, HttpStatus.OK);
+	}
+	@GetMapping(path = {"/{id}"})
+	public ResponseEntity<?> findById(@PathVariable Long id){
+	return cursoService.findById(id)
+	.map(record -> ResponseEntity.ok().body(record))
+	.orElse(ResponseEntity.notFound().build());
+	}
+}

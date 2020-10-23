@@ -1,0 +1,5 @@
+package br.com.opta2.aula8.domain;
+
+public class Curso {
+
+}

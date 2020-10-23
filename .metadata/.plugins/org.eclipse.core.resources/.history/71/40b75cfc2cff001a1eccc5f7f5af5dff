@@ -1,0 +1,18 @@
+package br.com.opta2.aula8.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.com.opta2.aula8.domain.Curso;
+import br.com.opta2.aula8.repository.CursoRepository;
+
+@Service
+public class CursoService {
+
+	@Autowired
+	private CursoRepository cursoRepository;
+
+	public Curso save(Curso curso) {
+		return cursoRepository.save(curso);
+	}
+}
